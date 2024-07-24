@@ -24,8 +24,7 @@ function sendMonitor(option: any, res: any) {
 }
 
 function url(option: Taro.request.Option) {
-  const prefix = option.url.split('/')[1] as IPrefix
-  const domain = DOMAIN[process.env.API_ENV][prefix]
+  const domain = DOMAIN[process.env.API_ENV]
   // 暂时先不支持缓存，优化的时候再处理吧
   option.url =
     domain +

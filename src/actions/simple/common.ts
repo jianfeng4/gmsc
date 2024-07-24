@@ -2,8 +2,8 @@ import { createFetch } from '@/utils/request'
 import { IResponseData } from './commonTypes/response.d'
 
 export const getRoleListCommon = createFetch<any, IResponseData<any>>(
-  '/box/common/1.0/role/list',
-  'GET',
+  '/gmscPackageItem/page',
+  'POST',
 )
 
 export const getCosKeyCommon = createFetch<any, IResponseData<any>>(

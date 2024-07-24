@@ -17,19 +17,10 @@ export type IHref<T extends string> = T extends `https://${infer R}`
 /************************************************** */
 
 const domain = {
-  real: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
-  },
-  pre: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
-  },
-  stable: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
-  },
-  dev: {
-    box: 'http://rap2api.taobao.org/app/mock/299812',
-    pet: 'http://swagger.io',
-  },
+  real: 'http://47.101.42.99',
+  pre: 'http://47.101.42.99',
+  stable: 'http://47.101.42.99',
+  dev: 'http://47.101.42.99',
 }
 
 export default domain
