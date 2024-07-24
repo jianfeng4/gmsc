@@ -10,9 +10,9 @@
   },
   "appId": {
     "weapp": {
-      "real": "",
-      "pre": "",
-      "dev": ""
+      "real": "wxfbd88695cfa6fd11",
+      "pre": "wxfbd88695cfa6fd11",
+      "dev": "wxfbd88695cfa6fd11"
     },
     "tt": {
       "real": "",
@@ -179,7 +179,6 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.12.0",
-    "husky": "^7.0.1",
     "lint-staged": "^11.0.1",
     "postcss": "^8.4.18",
     "prettier": "^2.8.1",
