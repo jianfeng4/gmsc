@@ -15,3 +15,8 @@ export const loginCommon = createFetch<any, IResponseData<any>>(
   '/box/common/1.0/login',
   'POST',
 )
+
+export const getSupplyList = createFetch<any, IResponseData<any>>(
+  '/gmscSupplier/query',
+  'POST',
+)

@@ -219,7 +219,7 @@ export default Unite(
           show={pickerShow}
           columns={['杭州', '宁波', '温州', '嘉兴', '湖州']}
           onConfirm={(e) => {
-            console.log(e)
+            console.log(e, 66666)
             setState({ pickerShow: false })
           }}
           onCancel={() => {
