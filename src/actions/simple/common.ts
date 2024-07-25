@@ -7,7 +7,7 @@ export const getRoleListCommon = createFetch<any, IResponseData<any>>(
 )
 
 export const getCosKeyCommon = createFetch<any, IResponseData<any>>(
-  '/box/common/1.0/cosKey',
+  '/gmscPackageItem/detail',
   'GET',
 )
 

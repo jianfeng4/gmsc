@@ -1,5 +1,4 @@
 export type TProxy = 'warning' | 'info'
-export type IPrefix = keyof typeof domain.real
 
 export type IPathName<
   T extends string,

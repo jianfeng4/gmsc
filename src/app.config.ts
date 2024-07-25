@@ -4,7 +4,9 @@ export default defineAppConfig({
   animation: true,
   pages: [
     'pages/index/index',
+    'pages/offer/index',
     'pages/pagination/index',
+    'pages/detail/index',
     'pages/tabAndSearchPagination/index',
   ],
   window: {

@@ -44,4 +44,5 @@ export function useRouter() {
     const query = parse(location.search ? location.search.slice(1) : '')
     routerInfo.params = { ...routerInfo.params, ...query }
   }
+  return routerInfo
 }

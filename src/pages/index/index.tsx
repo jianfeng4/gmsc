@@ -46,7 +46,14 @@ export default Unite(
       // const datap = await petClient.addPet({
       //   body: { name: 'xx', photoUrls: ['xxx'] },
       // })
-      const data = await getRoleListCommon({})
+      const data = await getRoleListCommon({
+        model: {},
+        size: 10,
+        current: 2,
+        sort: 'id',
+        order: 'descending',
+        extra: {},
+      })
       this.setState({
         info: data,
       })

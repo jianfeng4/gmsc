@@ -1,12 +1,14 @@
 import { Unite } from '@antmjs/unite'
-import { View } from '@tarojs/components'
+import { View, Text, ScrollView, Image } from '@tarojs/components'
+
 import { useReachBottom } from '@tarojs/taro'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
 import { getRoleListCommon } from '@/actions/simple/common'
+import Card from './components/card'
 import './index.less'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 export default Unite(
   {
@@ -18,13 +20,18 @@ export default Unite(
       await this.loadList(true)
     },
     async loadList(refresh = false) {
-      const list = await getRoleListCommon({
-        pageSize: PAGE_SIZE,
-        offset: refresh ? 0 : this.state.list.length,
+      const { records: list } = await getRoleListCommon({
+        model: {},
+        size: 10,
+        current: 2,
+        sort: 'id',
+        order: 'descending',
+        extra: {},
       })
+
       this.setState({
         list: refresh ? list : [].concat(this.state.list).concat(list as any),
-        complete: list.length < PAGE_SIZE ? true : false,
+        complete: list.length === 0,
       })
     },
   },
@@ -44,13 +51,9 @@ export default Unite(
         className="pages-pagination-index"
       >
         <Pagination complete={complete} size={PAGE_SIZE} data={list}>
-          {list?.map((item: any, index: number) => {
-            return (
-              <View className="li" key={index}>
-                {item.name}
-              </View>
-            )
-          })}
+          {list?.map((item) => (
+            <Card info={item} key={item.id} />
+          ))}
         </Pagination>
       </Container>
     )

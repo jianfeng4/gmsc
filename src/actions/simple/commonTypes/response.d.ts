@@ -8,7 +8,7 @@ export type IResponseData<T> = {
    * 业务状态
    * @value true
    **/
-  success: boolean
+  isSuccess: boolean
 
   /**
    * 错误消息

@@ -1,4 +1,4 @@
-import type { IPrefix, IPathName, IHref, TProxy } from './constants'
+import type { IPathName, IHref, TProxy } from './constants'
 import { hideLoading } from '@tarojs/taro'
 import { EMlf } from '@antmjs/trace'
 import { monitor } from '@/trace'
@@ -49,7 +49,7 @@ function request<
   M extends TProxy,
 >(
   query: {
-    [K in keyof T]: K extends 'url' ? IPathName<T[K], IPrefix> : T[K]
+    [K in keyof T]: K extends 'url' ? IPathName<T[K], string> : T[K]
   },
   type?: M,
 ): Promise<M extends 'info' ? CreateFetchResponse<any> : any> {

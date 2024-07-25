@@ -1,4 +1,4 @@
-import type { IPrefix, IPathName } from '../constants'
+import type { IPathName } from '../constants'
 import Taro from '@tarojs/taro'
 
 // 基于和服务端的约定，这个方法主要是用来处理返回类型是json的请求，非json类型的自己单独封装
@@ -6,7 +6,7 @@ import Taro from '@tarojs/taro'
 export default function innerRequest<
   T extends Omit<Taro.request.Option, 'success' | 'fail'>,
 >(option: {
-  [K in keyof T]: K extends 'url' ? IPathName<T[K], IPrefix> : T[K]
+  [K in keyof T]: K extends 'url' ? IPathName<T[K], any> : T[K]
 }) {
   option.timeout = option.timeout || 30000
   option.dataType = 'json'
@@ -19,9 +19,9 @@ export default function innerRequest<
         // 符合返回的规范才认定为成功
         if (
           (res.data.data || res.data.code) &&
-          typeof res.data.success === 'boolean'
+          typeof res.data.isSuccess === 'boolean'
         ) {
-          if (res.data.success) {
+          if (res.data.isSuccess) {
             resolve({
               header: res.header,
               code: '200',
