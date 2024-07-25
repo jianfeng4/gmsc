@@ -20,3 +20,7 @@ export const getSupplyList = createFetch<any, IResponseData<any>>(
   '/gmscSupplier/query',
   'POST',
 )
+export const submitOffer = createFetch<any, IResponseData<any>>(
+  '/gmscPackageItemOffer',
+  'POST',
+)

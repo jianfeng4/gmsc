@@ -25,13 +25,12 @@ import {
 import { useRouter } from '@/hooks'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
-import { getSupplyList } from '@/actions/simple/common'
+import { getSupplyList, submitOffer } from '@/actions/simple/common'
 import Picker from '@/components/picker'
 
 import './index.less'
 
 const PAGE_SIZE = 10
-
 export default Unite(
   {
     state: {
@@ -47,13 +46,42 @@ export default Unite(
     },
     async fetchDataWithId() {
       console.log(this.location.params, 'qqqqqqqqq')
-      // const { params } = router
-      const { id, packageId } = this.location.params // 获取路由参数中的id
       const data = (await getSupplyList({})) as any
       this.setState({
         supplyList: data,
         supplyNameList: data.map((item) => item.supplierName),
       })
+    },
+    async submit(value: any) {
+      // const { params } = router
+      const { id, packageId } = this.location.params // 获取路由参数中的id
+      const param = {
+        ...value,
+        supplierId: this.state.selectSupplierId,
+        itemId: id,
+        packageId,
+      }
+      // TODO 删掉这行
+      delete param.itemBasedOn
+      console.log('🚀 ~ submit ~ param:', param)
+
+      const data = (await submitOffer(param)) as any
+      if (data) {
+        console.log('🚀 ~ submit ~ 成功文案:')
+        Taro.showToast({
+          title: '提交成功',
+          icon: 'success',
+          duration: 2000,
+        })
+      } else {
+        console.log('🚀 ~ submit ~ 失败文案:')
+        Taro.showToast({
+          title: '提交失败',
+          icon: 'none',
+          duration: 2000,
+        })
+      }
+      this.setState({})
     },
   },
   function ({ state, events, loading }) {
@@ -64,11 +92,12 @@ export default Unite(
       selectSupplierId,
       selectSupplierName,
     } = state
-    const { setState } = events
+    const { setState, submit } = events
     const formIt = Form.useForm()
     const handleClick = async () => {
       formIt.validateFields((errorMessage, fieldValues) => {
         console.log('🚀 ~ formIt.validateFields ~ fieldValues:', fieldValues)
+        submit(fieldValues)
       })
     }
     return (
