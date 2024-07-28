@@ -1,5 +1,5 @@
 import { createFetch } from '@/utils/request'
-import { IResponseData } from './commonTypes/response.d'
+import { IResponseData } from './commonTypes/response'
 
 // 我的名片
 export const getMyCard = createFetch<any, IResponseData<any>>(

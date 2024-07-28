@@ -1,116 +1,105 @@
-import { Search, Tabs, Tab } from '@antmjs/vantui'
+import type { IProps as IDetail } from '../home/components/card'
 import { Unite } from '@antmjs/unite'
-import { View } from '@tarojs/components'
-import { useReachBottom } from '@tarojs/taro'
+import { View, Text, ScrollView, Image } from '@tarojs/components'
+import Taro, { useReachBottom } from '@tarojs/taro'
+import { useEffect } from 'react'
+import { Row, Col, Tag, Divider, Button } from '@antmjs/vantui'
+import { useRouter } from '@/hooks'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
-import { getRoleListCommon } from '@/actions/simple/common'
+import { getMyCard } from '@/actions/simple/profile'
+
 import './index.less'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 export default Unite(
   {
     state: {
-      list: null,
-      searchValue: '',
-      tabs: [
-        { id: 0, name: '卡片1' },
-        { id: 1, name: '卡片2' },
-        { id: 2, name: '卡片3' },
-        { id: 3, name: '卡片4' },
-        { id: 4, name: '卡片5' },
-        { id: 5, name: '卡片6' },
-        { id: 6, name: '卡片7' },
-        { id: 7, name: '卡片8' },
-      ],
-      activeTabIndex: 0,
-      complete: false,
+      detail: {} as IDetail,
     },
-    loaded: false,
     async onLoad() {
-      const inTab: string | number =
-        this.location.params['tab'] ?? this.state.activeTabIndex
-      if (!this.loaded) {
-        this.loaded = true
-        this.setState({ activeTabIndex: Number(inTab) })
-        await this.loadList(true, { tabId: this.state.tabs[Number(inTab)]!.id })
-      } else {
-        await this.loadList(true)
-      }
+      await this.fetchMyCard()
     },
-    async loadList(refresh = false, params?: Record<string, any>) {
-      if (refresh) this.setState({ list: null })
-      const list = await getRoleListCommon({
-        searchValue: this.state.searchValue,
-        tabId: this.state.tabs[this.state.activeTabIndex]?.id,
-        pageSize: PAGE_SIZE,
-        offset: refresh ? 0 : this.state.list.length,
-        ...(params || {}),
-      })
-      this.setState({
-        list: refresh ? list : [].concat(this.state.list).concat(list as any),
-        complete: list.length < PAGE_SIZE ? true : false,
-      })
-    },
-    onChangeSearch(e: any) {
-      this.setState({
-        searchValue: e.detail,
-      })
-    },
-    onChangeTab(e: any) {
-      this.setState({ activeTabIndex: e.detail.index })
-      this.loadList(true, {
-        tabId: this.state.tabs[e.detail.index]?.id,
-      })
-    },
-    onSearch() {
-      this.loadList(true)
+    async fetchMyCard() {
+      const data = (await getMyCard({})) as any
+      console.log('🚀 ~ fetchDataWithId ~ data:', data)
+      this.setState({ detail: data })
     },
   },
   function ({ state, events, loading }) {
-    const { list, complete, searchValue, activeTabIndex, tabs } = state
-    const { loadList, onSearch, onChangeSearch, onChangeTab } = events
-    useReachBottom(() => {
-      if (!loading.loadList && !complete) {
-        loadList()
-      }
-    })
+    const { detail } = state
+    console.log('🚀 ~ detail:', detail)
+    const { setState } = events
+
+    // const { params } = useRouter()
+    // setState({ id: params[id] })
+    const handleClick = () => {
+      Taro.navigateTo({
+        url: `/pages/offer/index?packageId=${detail.packageId}&id=${detail.id}`,
+      })
+    }
     return (
-      <Container
-        navTitle="SearchAndTab下拉上滑列表页面"
-        enablePagePullDownRefresh={true}
-        loading={!list}
-        className="pages-tabandsearchpagination-index"
-        renderPageTopHeader={() => {
+      <Container navTitle="采购详情" className="pages-pagination-index">
+        <View>{detail?.['itemName']}</View>
+        <Divider />
+
+        <View>基本信息</View>
+        <View>
+          <Row>
+            <Col span={6}>
+              <View>采购数量</View>
+            </Col>
+            <Col span={18}>
+              <View>{detail['itemNumber']}</View>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={6}>
+              <View>采购类目</View>
+            </Col>
+            <Col span={18}>
+              <View>{detail.packageGranularity}</View>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={6}>
+              <View>有效期</View>
+            </Col>
+            <Col span={18}>
+              <View>{detail.createdTime}</View>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={6}>
+              <View>规格说明</View>
+            </Col>
+            <Col span={18}>
+              <View>{detail.itemSpecs}</View>
+            </Col>
+          </Row>
+        </View>
+        <Divider />
+        <View>样例图片</View>
+        {detail?.appendix?.map((item, index) => {
+          console.log('🚀 ~ {detail?.appendix?.map ~ item:', item)
           return (
-            <>
-              <Search
-                value={searchValue}
-                placeholder="请输入搜索关键词"
-                onChange={onChangeSearch}
-                onSearch={onSearch}
-                background="#4fc08d"
-                renderAction={<View onClick={onSearch}>搜索</View>}
-              />
-              <Tabs active={activeTabIndex} onChange={onChangeTab}>
-                {tabs.map((item) => {
-                  return <Tab key={item.name} title={item.name} />
-                })}
-              </Tabs>
-            </>
+            <View key={index}>
+              <Image src={item?.path} mode="widthFix" />
+            </View>
           )
-        }}
-      >
-        <Pagination complete={complete} size={PAGE_SIZE} data={list}>
-          {list?.map((item: any, index: number) => {
-            return (
-              <View className="li" key={index}>
-                {item.name}
-              </View>
-            )
-          })}
-        </Pagination>
+        })}
+        <Divider />
+        <Row>
+          <Col span={12}>
+            <Button>分享</Button>
+          </Col>
+          <Col span={12}>
+            <Button type="primary" onClick={handleClick}>
+              我要报价
+            </Button>
+          </Col>
+        </Row>
       </Container>
     )
   },

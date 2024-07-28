@@ -3,6 +3,8 @@ export default defineAppConfig({
   // 打开H5路由动画
   animation: true,
   pages: [
+    'pages/login/index',
+
     'pages/home/index',
 
     'pages/index/index',

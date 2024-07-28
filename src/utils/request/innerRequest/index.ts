@@ -12,10 +12,24 @@ export default function innerRequest<
   option.dataType = 'json'
   option.responseType = 'text'
   return new Promise((resolve: (res: CreateFetchResponse<any>) => void) => {
+    // * Taro.request({
+    // *   url: 'test.php', //仅为示例，并非真实的接口地址
+    // *   data: {
+    // *     x: '',
+    // *     y: ''
+    // *   },
+    // *   header: {
+    // *     'content-type': 'application/json' // 默认值
+    // *   },
+    // *   success: function (res) {
+    // *     console.log(res.data)
+    // *   }
+    // * })
     Taro.request({
       ...option,
     })
       .then((res) => {
+        console.log('🚀 ~ .then ~ res:', res)
         // 符合返回的规范才认定为成功
         if (
           (res.data.data || res.data.code) &&
@@ -37,6 +51,7 @@ export default function innerRequest<
           }
         } else {
           if (res.statusCode === 200) res.statusCode = 598
+          console.log('🚀 ~ .then ~ res:', res)
           resolve({
             header: res.header,
             code: (res.statusCode || 599).toString(),
@@ -47,6 +62,8 @@ export default function innerRequest<
       })
       .catch((error) => {
         console.log(error)
+        console.log('🚀 ~ returnnewPromise ~ error111:', error)
+
         resolve({
           code: '499',
           data: error,

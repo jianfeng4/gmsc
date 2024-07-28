@@ -1,4 +1,4 @@
-import type { IProps as IDetail } from '../pagination/components/card'
+import type { IProps as IDetail } from '../home/components/card'
 import { Unite } from '@antmjs/unite'
 import { View, Text, ScrollView, Image, Input } from '@tarojs/components'
 import Taro, { useReachBottom } from '@tarojs/taro'

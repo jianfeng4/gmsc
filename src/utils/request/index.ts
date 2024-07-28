@@ -40,6 +40,7 @@ function header(option: Taro.request.Option) {
     'X-M-TYPE': process.env.TARO_ENV,
     'x-m-app': 'custom',
     'x-m-token': cacheGetSync('token') || '',
+    Token: cacheGetSync('token') || '',
   }
   option.header = header
 }
