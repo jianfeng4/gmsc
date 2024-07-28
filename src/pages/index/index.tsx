@@ -115,7 +115,7 @@ export default Unite(
               <Button
                 type="primary"
                 size="normal"
-                onClick={() => navigateTo({ url: '/pages/pagination/index' })}
+                onClick={() => navigateTo({ url: '/pages/home/index' })}
               >
                 分页模版页
               </Button>
