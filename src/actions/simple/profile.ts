@@ -1,16 +1,42 @@
 import { createFetch } from '@/utils/request'
 import { IResponseData } from './commonTypes/response'
-
+export interface IUserCardData {
+  userId: string
+  userName: string
+  userAvatar: null | string // 用户头像可能是null或字符串
+  mobile: string
+  workDescribe: string
+  supplierId: string
+  supplierName: string
+}
+export interface ISupplierContactData {
+  id: string
+  supplierName: string
+  supplierType: string
+  supplierIntroduction: string
+  supplierProductKeywords: string
+  supplierOutputValue: string
+  supplierLicense: string
+  fromSource: string
+  fromUserId: string
+  addressCode: null
+  addressName: null
+  addressShotName: null
+  addressDetail: null
+  contactUserName: null
+  contactUserPhone: null
+  active: 'true' | 'false' // 布尔字符串，只接受 'true' 或 'false'
+}
 // 我的名片
-export const getMyCard = createFetch<any, IResponseData<any>>(
+export const getMyCard = createFetch<any, IResponseData<IUserCardData>>(
   '/gmsc/wxUser/user/card',
   'GET',
 )
 // 企业通讯录列表
-export const getSupplyContact = createFetch<any, IResponseData<any>>(
-  '/gmsc/wxUser/supplier/list',
-  'GET',
-)
+export const getSupplyContact = createFetch<
+  any,
+  IResponseData<ISupplierContactData[]>
+>('/gmsc/wxUser/supplier/list', 'GET')
 
 // 新增企业
 export const addNewSupply = createFetch<any, IResponseData<any>>(

@@ -41,6 +41,8 @@ function header(option: Taro.request.Option) {
     'x-m-app': 'custom',
     'x-m-token': cacheGetSync('token') || '',
     Token: cacheGetSync('token') || '',
+    // Token:
+    //   'eyJ0eXAiOiJKc29uV2ViVG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJDdXJyZW50Q29tcGFueUlkIjoiMTgwNzI0MDMzMzEzMDQ2NTQwIiwiQ3VycmVudERlcHRJZCI6IiIsIlV1aWQiOiIxNzg1MDI3MC1lMTZmLTQzZTAtOWM1MC0xYTBhZTg1ZTEwMzEiLCJVc2VySWQiOiI1MjEyMjU4NDUwODQ0MzIzODkiLCJ3eE9wZW5JZCI6Im9MZFdUNl9BSkI1VnZnbEdlVzA3d2J1UXc2cjgiLCJDdXJyZW50VG9wQ29tcGFueUlkIjoiMTQ1MTUzMjY2NzY1NTgxNTE2OCIsIkVtcGxveWVlSWQiOiI1MjEyMjU4NDUwODQ0MzIzOTAiLCJpYXQiOjE3MjIxNjE4ODIsIm5iZiI6MTcyMjE2MTg4MiwiZXhwIjoxNzUzNjk3ODgyfQ.IvD-zpxpDEHP-t7Ctb50B-b2wf7JRnfbdo977s6oS4s',
   }
   option.header = header
 }

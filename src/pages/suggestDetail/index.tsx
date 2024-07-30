@@ -47,33 +47,35 @@ export default Unite(
       // })
     }
     return (
-      <Container navTitle="我的名片" className="pages-pagination-index">
+      <Container navTitle="推荐明细" className="pages-pagination-index">
         <View>
-          <CellGroup title="名片">
+          <CellGroup>
+            <View className="info-title">名片</View>
             <Image
               round
               width="50px"
               height="50px"
               src="https://img.yzcdn.cn/vant/cat.jpeg"
             />
-            <Cell title={'姓名：' + detail.userName} />
-            <Cell title={'电话：' + detail.mobile} />
-            <Cell title={'职务：' + detail.workDescribe} />
-            <Cell title={'就职企业：' + detail.supplierName} />
+            <View>姓名：{detail.userName}</View>
+            <View>电话：{detail.mobile}</View>
+            <View>职务：{detail.workDescribe}</View>
+            <View>就职企业：{detail.supplierName}</View>
           </CellGroup>
 
-          <CellGroup title="常用功能">
+          <CellGroup>
+            <View className="info-title">成绩</View>
+            <View>收益：</View>
+            <View>积分：</View>
+          </CellGroup>
+
+          <CellGroup>
+            <View className="info-title">常用功能</View>
             <Cell
               isLink
               title="企业通信录"
               linkType="navigateTo"
-              url="/pages/contact/index"
-            />
-            <Cell
-              isLink
-              title="推荐明细"
-              linkType="navigateTo"
-              url="/pages/contact/index"
+              url="/pages/dashboard/index"
             />
           </CellGroup>
         </View>

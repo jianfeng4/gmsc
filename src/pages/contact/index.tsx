@@ -16,7 +16,10 @@ import {
 import { useRouter } from '@/hooks'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
-import { getMyCard, type IUserCardData } from '@/actions/simple/profile'
+import {
+  getSupplyContact,
+  type ISupplierContactData,
+} from '@/actions/simple/profile'
 
 import './index.less'
 import { cacheGet } from '@/cache'
@@ -26,52 +29,39 @@ const PAGE_SIZE = 10
 export default Unite(
   {
     state: {
-      detail: {} as IUserCardData,
+      supplyContactList: [] as ISupplierContactData[],
     },
     async onLoad() {
-      await this.fetchMyCard()
-    },
-    async fetchMyCard() {
-      const data = await getMyCard({})
-      this.setState({ detail: data })
+      try {
+        const data = await getSupplyContact({})
+        console.log('🚀 ~ onLoad ~ data:', data)
+        this.setState({ supplyContactList: data })
+      } catch (error) {
+        console.log('🚀 ~ onLoad ~ error:', error)
+      }
     },
   },
   function ({ state, events, loading }) {
-    const { detail } = state
-    console.log('🚀 ~ detail:', detail)
+    const { supplyContactList } = state
+    console.log('🚀 ~ supplyContactList:', supplyContactList)
     const { setState } = events
 
     const handleClick = () => {
+      8
       // Taro.navigateTo({
       //   url: `/pages/offer/index?packageId=${detail.packageId}&id=${detail.id}`,
       // })
     }
     return (
-      <Container navTitle="我的名片" className="pages-pagination-index">
+      <Container navTitle="企业通信录" className="pages-pagination-index">
         <View>
-          <CellGroup title="名片">
-            <Image
-              round
-              width="50px"
-              height="50px"
-              src="https://img.yzcdn.cn/vant/cat.jpeg"
-            />
-            <Cell title={'姓名：' + detail.userName} />
-            <Cell title={'电话：' + detail.mobile} />
-            <Cell title={'职务：' + detail.workDescribe} />
-            <Cell title={'就职企业：' + detail.supplierName} />
-          </CellGroup>
-
-          <CellGroup title="常用功能">
+          <CellGroup>
+            {supplyContactList?.map((item) => (
+              <Cell title={item.supplierName} key={item.id} />
+            ))}
             <Cell
               isLink
-              title="企业通信录"
-              linkType="navigateTo"
-              url="/pages/contact/index"
-            />
-            <Cell
-              isLink
-              title="推荐明细"
+              title="添加企业"
               linkType="navigateTo"
               url="/pages/contact/index"
             />
