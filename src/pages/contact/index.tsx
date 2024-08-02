@@ -63,7 +63,7 @@ export default Unite(
               isLink
               title="添加企业"
               linkType="navigateTo"
-              url="/pages/contact/index"
+              url="/pages/addContact/index"
             />
           </CellGroup>
         </View>
