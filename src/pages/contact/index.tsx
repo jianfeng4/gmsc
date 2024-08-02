@@ -47,7 +47,6 @@ export default Unite(
     const { setState } = events
 
     const handleClick = () => {
-      8
       // Taro.navigateTo({
       //   url: `/pages/offer/index?packageId=${detail.packageId}&id=${detail.id}`,
       // })
@@ -57,7 +56,14 @@ export default Unite(
         <View>
           <CellGroup>
             {supplyContactList?.map((item) => (
-              <Cell title={item.supplierName} key={item.id} />
+              <Cell
+                isLink
+                title={item.supplierName}
+                key={item.id}
+                url={`/pages/contactDetail/index?detail=${JSON.stringify(
+                  item,
+                )}`}
+              />
             ))}
             <Cell
               isLink

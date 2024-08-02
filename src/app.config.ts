@@ -8,6 +8,7 @@ export default defineAppConfig({
     'pages/home/index',
     'pages/contact/index',
     'pages/addContact/index',
+    'pages/contactDetail/index',
 
     'pages/index/index',
     'pages/offer/index',
