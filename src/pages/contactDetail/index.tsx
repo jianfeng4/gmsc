@@ -3,10 +3,12 @@ import { Unite } from '@antmjs/unite'
 import { View, Input } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { Button, Form, FormItem, Dialog, Icon } from '@antmjs/vantui'
+import { useRef } from 'react'
 import Container from '@/components/container'
-import { addNewSupply } from '@/actions/simple/profile'
+import { addNewSupply, updateSupply } from '@/actions/simple/profile'
 import Picker from '@/components/picker'
 import { supplierTypeList } from '@/config'
+
 import './index.less'
 
 export default Unite(
@@ -20,23 +22,39 @@ export default Unite(
       pickerShow: false,
     },
     async onLoad() {
-      console.log(this.location.params, '!!!!!')
+      const detail = this.location.params['detail']
+      console.log('🚀 ~ onLoad ~ detail:', detail)
+      const supplierType = this.location.params['supplierType']
+      const supplierName = supplierTypeList.find(
+        (item) => item.key == supplierType,
+      )?.value
+      console.log('🚀 ~ onLoad ~ supplierName:', supplierName)
+      this.setState({
+        selectSupplierTypeKey: supplierType,
+        selectSupplierTypeName: supplierName,
+        detail: detail as any,
+      })
     },
     async submit(value: any) {
       // const { params } = router
       const param = {
-        ...value,
+        ...this.state.detail,
         fromSource: 'social_user',
         supplierType: this.state.selectSupplierTypeKey,
+        ...value,
       }
 
-      const data = (await addNewSupply(param)) as any
+      const data = (await updateSupply(param)) as any
       if (data) {
         console.log('🚀 ~ submit ~ 成功文案:')
         Taro.showToast({
           title: '提交成功',
           icon: 'success',
           duration: 2000,
+        }).then(() => {
+          Taro.navigateTo({
+            url: `/pages/contact/index`,
+          })
         })
       } else {
         console.log('🚀 ~ submit ~ 失败文案:')
@@ -57,6 +75,7 @@ export default Unite(
       selectSupplierTypeKey,
       selectSupplierTypeName,
     } = state
+    const formInstance = useRef(null)
     const { setState, submit } = events
     const formIt = Form.useForm()
     const handleClick = async () => {
@@ -67,7 +86,10 @@ export default Unite(
             title: '请选择企业类型',
             icon: 'none',
             duration: 2000,
+          }).then(() => {
+            return
           })
+          return
         }
         submit(fieldValues)
       })
@@ -77,10 +99,23 @@ export default Unite(
         <>
           <Form
             initialValues={{
-              userName: '我是初始值',
-              singleSelect: '1',
-              rate: 2,
-              slider: '50',
+              supplierName: decodeURIComponent(
+                location.search
+                  .split('supplierName=')[1]
+                  ?.split('&')[0] as string,
+              ),
+              supplierType: location.search
+                .split('supplierType=')[1]
+                ?.split('&')[0],
+              contactUserName: location.search
+                .split('contactUserName=')[1]
+                ?.split('&')[0],
+              contactUserPhone: location.search
+                .split('contactUserPhone=')[1]
+                ?.split('&')[0],
+              supplierProductKeywords: location.search
+                .split('supplierProductKeywords=')[1]
+                ?.split('&')[0],
             }}
             form={formIt}
             onFinish={(errs, res) => console.info(errs, res)}

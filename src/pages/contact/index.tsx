@@ -22,7 +22,7 @@ import {
 } from '@/actions/simple/profile'
 
 import './index.less'
-import { cacheGet } from '@/cache'
+import { cacheGet, cacheSet, cacheSetSync } from '@/cache'
 
 const PAGE_SIZE = 10
 
@@ -60,9 +60,25 @@ export default Unite(
                 isLink
                 title={item.supplierName}
                 key={item.id}
-                url={`/pages/contactDetail/index?detail=${JSON.stringify(
-                  item,
-                )}`}
+                url={`/pages/contactDetail/index?supplierName=${
+                  item.supplierName
+                }&supplierType=${item.supplierType}&supplierIntroduction=${
+                  item.supplierIntroduction
+                }&supplierProductKeywords=${
+                  item.supplierProductKeywords
+                }&supplierOutputValue=${
+                  item.supplierOutputValue
+                }&supplierLicense=${item.supplierLicense}&fromSource=${
+                  item.fromSource
+                }&fromUserId=${item.fromUserId}&addressCode=${
+                  item.addressCode
+                }&addressName=${item.addressName}&addressShotName=${
+                  item.addressShotName
+                }&addressDetail=${item.addressDetail}&contactUserName=${
+                  item.contactUserName
+                }&contactUserPhone=${item.contactUserPhone}&active=${
+                  item.active
+                }&detail=${JSON.stringify(item)}`}
               />
             ))}
             <Cell
