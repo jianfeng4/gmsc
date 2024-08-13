@@ -10,6 +10,7 @@ export interface IUserCardData {
   supplierName: string
 }
 export interface ISupplierContactData {
+  [x: string]: string
   id: string
   supplierName: string
   supplierType: string
@@ -27,6 +28,15 @@ export interface ISupplierContactData {
   contactUserPhone: null
   active: 'true' | 'false' // 布尔字符串，只接受 'true' 或 'false'
 }
+
+export interface IRecomUser {
+  id: string // 假设id是字符串类型
+  username: string
+  workDescribe: string | null // 假设workDescribe是字符串或者null
+}
+
+// 使用接口类型定义数组
+type IRecomUserList = IRecomUser[]
 // 我的名片
 export const getMyCard = createFetch<any, IResponseData<IUserCardData>>(
   '/gmsc/wxUser/user/card',
@@ -60,7 +70,7 @@ export const deleteUserSupply = createFetch<any, IResponseData<any>>(
   'GET',
 )
 // 推荐人列表
-export const getRecommendList = createFetch<any, IResponseData<any>>(
+export const getRecommendList = createFetch<any, IResponseData<IRecomUserList>>(
   '/gmsc/wxUser/recommend/list',
   'GET',
 )

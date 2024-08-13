@@ -5,7 +5,12 @@ import Taro from '@tarojs/taro'
 import { Button, Form, FormItem, Dialog, Icon } from '@antmjs/vantui'
 import { useRef } from 'react'
 import Container from '@/components/container'
-import { addNewSupply, updateSupply } from '@/actions/simple/profile'
+import {
+  addNewSupply,
+  updateSupply,
+  setUserSupply,
+  deleteUserSupply,
+} from '@/actions/simple/profile'
 import Picker from '@/components/picker'
 import { supplierTypeList } from '@/config'
 
@@ -66,6 +71,56 @@ export default Unite(
       }
       this.setState({})
     },
+
+    // 设置用户就职该企业
+    async setUser() {
+      const data = (await setUserSupply({
+        id: this.state.detail.id,
+      })) as any
+      if (data) {
+        console.log('🚀 ~ setUserSupply ~ 成功文案:')
+        Taro.showToast({
+          title: '设置成功',
+          icon: 'success',
+          duration: 2000,
+        }).then(() => {})
+      } else {
+        console.log('🚀 ~ setUserSupply ~ 失败文案:')
+        Taro.showToast({
+          title: '设置失败',
+          icon: 'none',
+          duration: 2000,
+        })
+      }
+      this.setState({})
+    },
+
+    // 删除用户所在企业
+    async deleteUser() {
+      const data = (await deleteUserSupply({
+        id: this.state.detail.id,
+      })) as any
+      if (data) {
+        console.log('🚀 ~ deleteUserSupply ~ 成功文案:')
+        Taro.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 2000,
+        }).then(() => {
+          Taro.navigateTo({
+            url: `/pages/contact/index`,
+          })
+        })
+      } else {
+        console.log('🚀 ~ deleteUserSupply ~ 失败文案:')
+        Taro.showToast({
+          title: '删除失败',
+          icon: 'none',
+          duration: 2000,
+        })
+      }
+      this.setState({})
+    },
   },
   function ({ state, events, loading }) {
     const {
@@ -76,7 +131,7 @@ export default Unite(
       selectSupplierTypeName,
     } = state
     const formInstance = useRef(null)
-    const { setState, submit } = events
+    const { setState, submit, setUser, deleteUser } = events
     const formIt = Form.useForm()
     const handleClick = async () => {
       formIt.validateFields((errorMessage, fieldValues) => {
@@ -188,7 +243,22 @@ export default Unite(
               onClick={handleClick}
               formType="submit"
             >
-              提交
+              修改
+            </Button>
+            <Button
+              className="van-button-submit"
+              onClick={setUser}
+              formType="submit"
+            >
+              就职
+            </Button>
+            <Button
+              type="danger"
+              className="van-button-submit"
+              onClick={deleteUser}
+              formType="submit"
+            >
+              删除
             </Button>
           </Form>
           <Dialog id="form-demo11" />

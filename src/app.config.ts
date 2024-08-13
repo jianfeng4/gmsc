@@ -4,6 +4,7 @@ export default defineAppConfig({
   animation: true,
   pages: [
     'pages/login/index',
+    'pages/recommend/index',
 
     'pages/home/index',
     'pages/contact/index',

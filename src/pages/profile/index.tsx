@@ -73,7 +73,7 @@ export default Unite(
               isLink
               title="推荐明细"
               linkType="navigateTo"
-              url="/pages/contact/index"
+              url="/pages/recommend/index"
             />
           </CellGroup>
         </View>

@@ -4,6 +4,7 @@ import Taro from '@tarojs/taro'
 import { View, Button, Image } from '@tarojs/components'
 import { weChatLogin } from '@/actions/simple/login' // 导入封装的登录服务
 import { cacheSet, cacheGet } from '@/cache'
+import log from '@/resources/images/log.jpg'
 import './index.less'
 // 引入样式文件
 export default function Login() {
@@ -51,12 +52,9 @@ export default function Login() {
   }
 
   return (
-    <View>
+    <View className="login-page">
       <View className="logo-container">
-        <Image
-          src="https://img.yzcdn.cn/vant/logo.png"
-          className="logo"
-        ></Image>
+        <Image src={log} className="logo"></Image>
       </View>
       <Button className="button" onClick={handleWeChatLogin}>
         微信一键登录
