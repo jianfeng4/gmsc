@@ -21,7 +21,9 @@ import {
   Stepper,
   Dialog,
   Icon,
+  Uploader,
 } from '@antmjs/vantui'
+
 import { useRouter } from '@/hooks'
 import Container from '@/components/container'
 import Pagination from '@/components/pagination'
@@ -29,6 +31,7 @@ import { getSupplyList, submitOffer } from '@/actions/simple/common'
 import Picker from '@/components/picker'
 
 import './index.less'
+import { supplierTypeMap } from '@/config'
 
 const PAGE_SIZE = 10
 export default Unite(
@@ -38,8 +41,10 @@ export default Unite(
       supplyList: [],
       supplyNameList: [],
       selectSupplierId: '',
+      selectSupplierType: '',
       selectSupplierName: '',
       pickerShow: false,
+      fileList: [],
     },
     async onLoad() {
       await this.fetchDataWithId()
@@ -72,6 +77,10 @@ export default Unite(
           title: '提交成功',
           icon: 'success',
           duration: 2000,
+        }).then(() => {
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 2000)
         })
       } else {
         console.log('🚀 ~ submit ~ 失败文案:')
@@ -90,7 +99,9 @@ export default Unite(
       supplyNameList,
       pickerShow,
       selectSupplierId,
+      selectSupplierType,
       selectSupplierName,
+      fileList,
     } = state
     const { setState, submit } = events
     const formIt = Form.useForm()
@@ -103,16 +114,7 @@ export default Unite(
     return (
       <Container navTitle="采购详情" className="pages-pagination-index">
         <>
-          <Form
-            initialValues={{
-              userName: '我是初始值',
-              singleSelect: '1',
-              rate: 2,
-              slider: '50',
-            }}
-            form={formIt}
-            onFinish={(errs, res) => console.info(errs, res)}
-          >
+          <Form form={formIt} onFinish={(errs, res) => console.info(errs, res)}>
             <FormItem
               label="供应企业"
               name="itemOfferPrice"
@@ -124,8 +126,21 @@ export default Unite(
               <View>{selectSupplierName}</View>
               <Icon
                 name="arrow"
-                size="32px"
+                size="16px"
                 onClick={() => setState({ pickerShow: true })}
+              />
+            </FormItem>
+            <FormItem
+              label="企业类型"
+              name="supplierType"
+              required
+              valueFormat={(e) => e.detail.value}
+            >
+              <Input
+                placeholder={supplierTypeMap[selectSupplierType]}
+                value={supplierTypeMap[selectSupplierType]}
+                type="text"
+                disabled
               />
             </FormItem>
             <FormItem
@@ -142,7 +157,6 @@ export default Unite(
             >
               <Input placeholder="请输入供应单价" type="numberpad" />
             </FormItem>
-
             <FormItem
               label="供应数量"
               name="itemNumber"
@@ -157,7 +171,24 @@ export default Unite(
             >
               <Input placeholder="请输入供应数量" type="numberpad" />
             </FormItem>
-
+            <FormItem label="报价因素" name="itemBasedOn" required>
+              <CheckboxGroup direction="horizontal">
+                <Checkbox name="tax" shape="square" checkedColor="#2196f3">
+                  含税价
+                </Checkbox>
+                <Checkbox name="freight" shape="square" checkedColor="#2196f3">
+                  含运费价
+                </Checkbox>
+                <Divider />
+                <Checkbox
+                  name="insurance"
+                  shape="square"
+                  checkedColor="#2196f3"
+                >
+                  含保险价
+                </Checkbox>
+              </CheckboxGroup>
+            </FormItem>
             <FormItem
               label="服务费"
               name="itemMatchingFee"
@@ -172,30 +203,24 @@ export default Unite(
               <Input placeholder="请输入服务费" type="numberpad" />
             </FormItem>
 
-            <FormItem label="复选框" name="itemBasedOn">
-              <CheckboxGroup direction="horizontal">
-                <Checkbox name="tax" shape="square" checkedColor="#07c160">
-                  含税价
-                </Checkbox>
-                <Checkbox name="freight" shape="square" checkedColor="#07c160">
-                  含运费价
-                </Checkbox>
-                <Checkbox
-                  name="insurance"
-                  shape="square"
-                  checkedColor="#07c160"
-                >
-                  含保险价
-                </Checkbox>
-              </CheckboxGroup>
+            <FormItem label="样例图片" name="itemMatchingFee">
+              <Uploader
+                fileList={fileList}
+                onAfterRead={() => {
+                  // 上传带到云
+                }}
+                onDelete={() => {}}
+                deletable
+                accept="image"
+                showUpload={true}
+              />
             </FormItem>
             <Button
-              type="primary"
-              className="van-button-submit"
+              className="button primary"
               onClick={handleClick}
               formType="submit"
             >
-              提交
+              确认提交
             </Button>
           </Form>
           <Dialog id="form-demo11" />
@@ -205,13 +230,15 @@ export default Unite(
           show={pickerShow}
           columns={supplyNameList}
           onConfirm={(e) => {
-            const targetId = supplyList.find(
+            const target = supplyList.find(
               (item) => item.supplierName === e.detail.value,
-            )?.id
+            )
+
             setState({
               pickerShow: false,
               selectSupplierName: e.detail.value,
-              selectSupplierId: targetId,
+              selectSupplierId: target.id,
+              selectSupplierType: target.supplierType,
             })
           }}
           onCancel={() => {

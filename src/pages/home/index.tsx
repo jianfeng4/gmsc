@@ -6,6 +6,7 @@ import Container from '@/components/container'
 import Pagination from '@/components/pagination'
 import { getRoleListCommon } from '@/actions/simple/common'
 import Card from './components/card'
+import Header from './components/header'
 import './index.less'
 
 const PAGE_SIZE = 10
@@ -45,11 +46,13 @@ export default Unite(
     })
     return (
       <Container
-        navTitle="下拉上滑列表页面"
+        navTitle="光明采购"
         enablePagePullDownRefresh={true}
         loading={!list}
         className="pages-pagination-index"
       >
+        <Header />
+        <View className="type-title">货品采购</View>
         <Pagination complete={complete} size={PAGE_SIZE} data={list}>
           {list?.map((item) => (
             <Card info={item} key={item.id} />

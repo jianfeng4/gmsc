@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { RecoilRoot } from 'recoil'
-import {
+import Taro, {
   useDidShow,
   useDidHide,
   getUpdateManager,
@@ -18,6 +18,7 @@ export default function App(props: any) {
     // app 里面发起的请求只能用info，因为不在Unite里面，拦截不了。返回结果自己处理
     // 请求不需要catch，内部封装过了，都会resolve出来，具体看res的类型
     // doSomeFunction({}, 'info').then((res) => {})
+
     return function () {
       // 这个暂时不确定会不会触发
       console.log('app unlaunch')

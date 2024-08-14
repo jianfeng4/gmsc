@@ -48,20 +48,20 @@ export default Unite(
     }
     return (
       <Container navTitle="采购详情" className="pages-pagination-index">
-        <View>{detail?.['itemName']}</View>
-        <Divider />
+        <Text className="title">{detail?.['itemName']}</Text>
+        <Divider className="divider" />
+        <View className="sub-title">基本信息</View>
 
-        <View>基本信息</View>
-        <View>
-          <Row>
+        <View className="base-info">
+          <Row className="custom-row">
             <Col span={6}>
-              <View>采购数量</View>
+              <Text>采购数量</Text>
             </Col>
             <Col span={18}>
-              <View>{detail['itemNumber']}</View>
+              <Text>{detail['itemNumber']}</Text>
             </Col>
           </Row>
-          <Row>
+          <Row className="custom-row">
             <Col span={6}>
               <View>采购类目</View>
             </Col>
@@ -69,7 +69,7 @@ export default Unite(
               <View>{detail.packageGranularity}</View>
             </Col>
           </Row>
-          <Row>
+          <Row className="custom-row">
             <Col span={6}>
               <View>有效期</View>
             </Col>
@@ -77,7 +77,7 @@ export default Unite(
               <View>{detail.createdTime}</View>
             </Col>
           </Row>
-          <Row>
+          <Row className="custom-row">
             <Col span={6}>
               <View>规格说明</View>
             </Col>
@@ -86,26 +86,36 @@ export default Unite(
             </Col>
           </Row>
         </View>
-        <Divider />
-        <View>样例图片</View>
-        {detail?.appendix?.map((item, index) => {
-          console.log('🚀 ~ {detail?.appendix?.map ~ item:', item)
-          return (
-            <View key={index}>
-              <Image src={item?.path} mode="widthFix" />
-            </View>
-          )
-        })}
-        <Divider />
+
+        <View className="sub-title">样例图片</View>
+        <View className="image-preview">
+          {/* {detail?.appendix?.map((item, index) => {
+            return (
+              <View key={index} className="image-item">
+                <Image src={item?.path} mode="widthFix" />
+              </View>
+            )
+          })} */}
+          {[
+            'https://tse4-mm.cn.bing.net/th/id/OIP-C.WaaF9IEA0F4wG6SVGqvQ3QHaHa?rs=1&pid=ImgDetMain',
+            'https://cbu01.alicdn.com/img/ibank/2018/039/658/9096856930_1461188323.jpg',
+          ].map((item, index) => {
+            return (
+              <View key={index} className="image-item">
+                <Image src={item} mode="widthFix" />
+              </View>
+            )
+          })}
+        </View>
+
+        <Divider className="divider" />
         <Row>
-          <Col span={12}>
-            <Button>分享</Button>
-          </Col>
-          <Col span={12}>
-            <Button type="primary" onClick={handleClick}>
+          <View className="button-wrapper">
+            <Button className="button share">分享</Button>
+            <Button className="button primary" onClick={handleClick}>
               我要报价
             </Button>
-          </Col>
+          </View>
         </Row>
       </Container>
     )

@@ -24,29 +24,33 @@ export default defineAppConfig({
       {
         pagePath: 'pages/home/index',
         text: '首页',
-        // iconPath: "./assets/icons/home.png",
-        // selectedIconPath: "./assets/icons/home-active.png",
+        iconPath: './resources/images/tab_icon/home.png',
+        selectedIconPath: './resources/images/tab_icon/home_active.png',
       },
 
       {
         pagePath: 'pages/need/index',
         text: '求购',
-        // iconPath: "./assets/icons/need.png",
-        // selectedIconPath: "./assets/icons/need-active.png",
+        iconPath: './resources/images/tab_icon/shop.png',
+        selectedIconPath: './resources/images/tab_icon/shop_active.png',
       },
       {
         pagePath: 'pages/supply/index',
         text: '供应',
-        // iconPath: "./assets/icons/supply.png",
-        // selectedIconPath: "./assets/icons/supply-active.png",
+        iconPath: './resources/images/tab_icon/file.png',
+        selectedIconPath: './resources/images/tab_icon/file_active.png',
       },
       {
         pagePath: 'pages/profile/index',
         text: '我的',
-        // iconPath: "./assets/icons/profile.png",
-        // selectedIconPath: "./assets/icons/profile-active.png",
+        iconPath: './resources/images/tab_icon/my.png',
+        selectedIconPath: './resources/images/tab_icon/my_active.png',
       },
     ],
+    color: '#000',
+    selectedColor: '#56abe4',
+    backgroundColor: '#fff',
+    borderStyle: 'white',
   },
   window: {
     // @ts-ignore

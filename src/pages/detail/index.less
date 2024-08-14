@@ -1,4 +1,9 @@
 .pages-pagination-index {
+  padding-left: 20px;
+  padding: 20px;
+  background-color: #fff;
+  min-height: 100vh;
+
   .li {
     min-height: 200px;
     margin: 0 @padding-sm @padding-sm;
@@ -10,4 +15,89 @@
       margin-top: @padding-sm;
     }
   }
+}
+
+// 标题样式
+.title {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.sub-title {
+  font-size: small;
+  font-weight: bold;
+  color: #346dff;
+  margin-bottom: 30px;
+}
+// 基本信息区域样式
+.base-info {
+  margin-bottom: 20px;
+  .row {
+    margin-bottom: 10px;
+    .view {
+      padding: 5px 0;
+    }
+  }
+}
+
+// 分隔线样式
+.divider {
+  margin: 15px 0;
+}
+
+// 样例图片样式
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+  .image-item {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+// 按钮样式
+.button {
+  padding: 20px;
+  color: #fff;
+  border-radius: 10px;
+  &.share {
+    width: 200px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 2px solid #346dff;
+    color: #346dff;
+  }
+  &.primary {
+    background-color: #2196f3;
+    margin-left: 10px;
+    width: 350px;
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  .base-info .row {
+    flex-direction: column;
+    .col {
+      width: 100%;
+    }
+  }
+}
+
+// 定义自定义的Row样式
+.custom-row {
+  margin-bottom: 20px; // 根据需要调整行间距大小
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
 }
